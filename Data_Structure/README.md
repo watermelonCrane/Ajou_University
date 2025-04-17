@@ -1,7 +1,9 @@
-# 자료구조 실습 과제
+# DATA_STRUCTURE
 
-자료구조실습 과제물
+## 개요
+자료구조 강의를 수강하며 진행한 실습의 소스코드입니다.
 
-## 필독사항
-> **인코딩**: EUC-KR<br/>
-> **개발환경**: VisualStudio2022 default setting, SDL체크 사용안함
+## 개발환경
+- VisualStudio2022
+- SDL 사용안함
+- 인코딩: EUC-KR
