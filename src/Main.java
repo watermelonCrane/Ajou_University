@@ -20,8 +20,11 @@
 * Armor - done
 * Weapon - done
 *
-* Dungeon
+* Dungeon - done
 *
+*
+* todo: 버그 픽스 필요한 것들
+*  1. 게임이 클리어되어도 종료가 안됨. Game 클래스에 표시해놨음 그 부분 살펴보자.
 *
 * */
 

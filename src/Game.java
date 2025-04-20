@@ -87,7 +87,7 @@ public class Game {
                 }
 
                 if (dungeon.getCurrentFloor() == Dungeon.MAX_FLOOR) {
-                    return;
+                    return; //FIXME
                 }
             }
         }
