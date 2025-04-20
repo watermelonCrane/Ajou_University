@@ -164,7 +164,7 @@ public class Player extends Entity implements Fight {
     // 아이템이 있으면 각 아이템의 번호와 설명을 출력합니다
     // 마지막으로 "==================="를 출력합니다.
     public void printInventory() {
-        System.out.println("\\n===== 인벤토리 =====");
+        System.out.println("\n===== 인벤토리 =====");
         if (inventory.isEmpty()) {
             System.out.println("인벤토리가 비어있습니다.");
         }
