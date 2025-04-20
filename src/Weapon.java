@@ -18,6 +18,6 @@ public class Weapon extends Item {
     // "S (공격력: X, Y층)" 형식으로 반환합니다 (S: 장비이름, X: 공격력 수치, Y: 획득한 층)
     @Override
     public String getDescription() {
-        return getName() + " (공격력: " + damage + ", " + getFloor() + "층";
+        return getName() + " (공격력: " + damage + ", " + getFloor() + "층)";
     }
 }

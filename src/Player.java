@@ -32,7 +32,7 @@ public class Player extends Entity implements Fight {
         // 1    setter를 써야하나 고민중
         experiencePoints += exp;
         System.out.println(getName() + "가 " + exp + " 경험치를 획득했습니다.");   // 2
-        while (exp >= 100) levelUp();       // 3
+        while (experiencePoints >= 100) levelUp();       // 3
     }
 
     // done: 레벨업 메서드를 구현하세요

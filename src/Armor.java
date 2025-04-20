@@ -18,6 +18,6 @@ public class Armor extends Item {
     // "S (방어력: X, Y층)" 형식으로 반환합니다 (S: 장비이름, X: 방어력 수치, Y: 획득한 층)
     @Override
     public String getDescription() {
-        return getName() + " (방어력: " + defense + ", " + getFloor() + "층";
+        return getName() + " (방어력: " + defense + ", " + getFloor() + "층)";
     }
 }
