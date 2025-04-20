@@ -39,8 +39,14 @@ public class BossMonster extends Monster {
     // 3. 무기는 "(floor)층 보스의 무기" 이름에 공격력이 floor인 Weapon 객체입니다
     @Override
     public Item dropItem() {
-        // 여기에 코드를 작성하세요
-        return null; // 이 부분을 수정하세요
+        int floor = getFloor();
+        Item item;
+        if (floor == 20) {
+            item = new Armor(floor + "층 보스의 방어구", floor, floor / 2);
+        } else {
+            item = new Weapon(floor + "층 보스의 무기", floor, floor);
+        }
+        return item;
     }
 
     // TODO: 보스 몬스터 정보를 문자열로 반환하는 메서드를 오버라이드하세요
