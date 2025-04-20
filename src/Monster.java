@@ -28,8 +28,17 @@ public abstract class Monster extends Entity implements Fight {
     // 6. 최종 데미지를 반환합니다
     @Override
     public int attack(Entity target) {
-        // 여기에 코드를 작성하세요
-        return 0; // 이 부분을 수정하세요
+        int damage = calculateDamage(target);       // 1
+        if (RandomManager.isCritical()) {
+            damage *= 1.5;
+            System.out.println("몬스터의 치명타!");
+        }   // 2, 3
+
+        System.out.println(getName() + "가 " + damage + "의 데미지를 입혔습니다."); // 4
+
+        target.takeDamage(damage); // 5
+
+        return damage; // 6
     }
 
     // TODO: 몬스터의 데미지 계산 메서드를 구현하세요
@@ -39,15 +48,17 @@ public abstract class Monster extends Entity implements Fight {
     // 4. 기본 데미지에 배율을 곱하여 최종 데미지를 계산하고 반환합니다 (int로 형변환)
     @Override
     public int calculateDamage(Entity target) {
-        // 여기에 코드를 작성하세요
-        return 0; // 이 부분을 수정하세요
+        int baseDamage = getBaseDamage();   // 1
+        int levelGap = target.getLevel() - getLevel();
+        double damageMag = Math.max(levelGap * 0.1, 0.1) + 1.0;     //2, 3
+
+        return (int) (baseDamage * damageMag);      // 4
     }
 
-    // TODO: 몬스터 정보를 문자열로 반환하는 메서드를 구현하세요
+    // DONE: 몬스터 정보를 문자열로 반환하는 메서드를 구현하세요
     // "S (레벨 X) - HP: Y/Z" 형식으로 반환합니다(S: 몬스터 이름, X: 몬스터 레벨, Y: 현재 체력, Z: 전체 체력)
     public String getInfo() {
-        // 여기에 코드를 작성하세요
-        return ""; // 이 부분을 수정하세요
+        return getName() + " (레벨 " + getLevel() + ") - HP: " + getHealthPoints() + "/" + getMaxHealthPoints();
     }
 
     // 몬스터가 드롭하는 아이템을 반환하는 추상 메서드 (각 하위 클래스에서 구현해야 함)

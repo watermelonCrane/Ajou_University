@@ -44,8 +44,8 @@ public class Dungeon {
     // TODO: 던전 클리어 여부를 확인하는 메서드를 구현하세요
     // 현재 층이 MAX_FLOOR보다 크면 true, 아니면 false를 반환합니다
     public boolean isDungeonCleared() {
-        // 여기에 코드를 작성하세요
-        return false; // 이 부분을 수정하세요
+        if (currentFloor > MAX_FLOOR) return true;
+        else return false;
     }
 
     // TODO: 현재 층이 보스 층인지 확인하는 메서드를 구현하세요

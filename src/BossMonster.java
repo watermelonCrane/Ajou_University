@@ -10,15 +10,27 @@ public class BossMonster extends Monster {
         super(name, level, floor, maxHP, attackPower, expReward);
     }
 
-    // TODO: 층에 맞는 보스 몬스터정보를 위의 BOSS_DATA에서 가져와 생성하는 정적 메서드를 구현하세요
+    // Done: 층에 맞는 보스 몬스터정보를 위의 BOSS_DATA에서 가져와 생성하는 정적 메서드를 구현하세요
     // 1. 입력받은 floor를 기반으로 적절한 보스 인덱스를 계산합니다 ((floor / 10) - 1)
     // 2. 인덱스가 BOSS_DATA 배열 범위를 벗어나면 마지막 보스 데이터를 사용합니다
     // 3. 선택된 보스 데이터로부터 이름, 최대 체력, 공격력, 경험치 보상을 가져옵니다
     // 4. 레벨은 (floor / 2 + 5)로 계산합니다
     // 5. 새로운 BossMonster 객체를 생성하여 반환합니다
     public static BossMonster createBossForFloor(int floor) {
-        // 여기에 코드를 작성하세요
-        return null; // 이 부분을 수정하세요
+        // 1, 2
+        int index = Math.min(((floor / 10) - 1), 2);    // 인덱스는 2보다 작아야함.
+
+        // 3, 4
+        String name = BOSS_DATA[index][0];
+        int hp = Integer.parseInt(BOSS_DATA[index][1]);
+        int atk = Integer.parseInt(BOSS_DATA[index][2]);
+        int exp = Integer.parseInt(BOSS_DATA[index][3]);
+
+        int level = floor / 2 + 5;
+
+        // 5
+        BossMonster boss = new BossMonster(name, level, floor, hp, atk, exp);
+        return boss;
     }
 
     // TODO: 보스 몬스터가 드롭하는 아이템을 구현하세요
