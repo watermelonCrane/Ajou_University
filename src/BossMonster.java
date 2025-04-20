@@ -33,7 +33,7 @@ public class BossMonster extends Monster {
         return boss;
     }
 
-    // TODO: 보스 몬스터가 드롭하는 아이템을 구현하세요
+    // done: 보스 몬스터가 드롭하는 아이템을 구현하세요
     // 1. 층 수가 20이면 방어구를, 아니면 무기를 드롭합니다
     // 2. 방어구는 "(floor)층 보스의 방어구" 이름에 방어력이 (floor/2)인 Armor 객체입니다
     // 3. 무기는 "(floor)층 보스의 무기" 이름에 공격력이 floor인 Weapon 객체입니다
@@ -49,11 +49,10 @@ public class BossMonster extends Monster {
         return item;
     }
 
-    // TODO: 보스 몬스터 정보를 문자열로 반환하는 메서드를 오버라이드하세요
+    // done: 보스 몬스터 정보를 문자열로 반환하는 메서드를 오버라이드하세요
     // "[보스] S" 형식으로 반환합니다 (S: 보스이름)
     @Override
     public String getInfo() {
-        // 여기에 코드를 작성하세요
-        return ""; // 이 부분을 수정하세요
+        return "[보스] " + getName(); // 이 부분을 수정하세요
     }
 }

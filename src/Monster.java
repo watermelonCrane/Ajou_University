@@ -41,7 +41,7 @@ public abstract class Monster extends Entity implements Fight {
         return damage; // 6
     }
 
-    // TODO: 몬스터의 데미지 계산 메서드를 구현하세요
+    // FIXME: 몬스터의 데미지 계산 메서드를 구현하세요
     // 1. getBaseDamage 메서드를 호출하여 기본 데미지를 가져옵니다
     // 2. 레벨 차이에 따른 데미지 배율을 계산합니다 (레벨 차이 * 0.1 + 1.0)
     // 3. 배율은 최소 0.1 이상이 되어야 합니다 (Math.max 활용)
@@ -49,7 +49,7 @@ public abstract class Monster extends Entity implements Fight {
     @Override
     public int calculateDamage(Entity target) {
         int baseDamage = getBaseDamage();   // 1
-        int levelGap = target.getLevel() - getLevel();
+        int levelGap = Math.abs(target.getLevel() - getLevel());  // 레벨차이, FIXME: 질문 답변 본 후 다시 작성
         double damageMag = Math.max(levelGap * 0.1, 0.1) + 1.0;     //2, 3
 
         return (int) (baseDamage * damageMag);      // 4
