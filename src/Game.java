@@ -87,7 +87,8 @@ public class Game {
                 }
 
                 if (dungeon.getCurrentFloor() == Dungeon.MAX_FLOOR) {
-                    return; //FIXME
+                    dungeon.moveToNextRoom();   //누락된 코드 추가
+                    return;
                 }
             }
         }
