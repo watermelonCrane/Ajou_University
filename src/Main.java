@@ -1,8 +1,3 @@
-/* todo: 구현 해야할 것들
-* 1. 전체적으로 확인
-* 2. 메일 오면 내용 확인 후 수정
-* */
-
 import java.io.*;
 import java.util.*;
 

@@ -27,7 +27,7 @@ public class Dungeon {
         }
     }
 
-    // done: 다음 방으로 이동하는 메서드를 구현하세요
+    // 다음 방으로 이동하는 메서드
     // 1. 현재 방 번호를 1 증가시킵니다
     // 2. 방 번호가 ROOMS_PER_FLOOR보다 크면 moveToNextFloor()를 호출합니다
     // 3. 아니면 "다음 방으로 이동합니다. 현재 위치: X층 Y번 방"형식으로 출력합니다 (X: 현재 층, Y: 다음 방)
@@ -37,7 +37,7 @@ public class Dungeon {
         else System.out.println("다음 방으로 이동합니다. 현재 위치: " + currentFloor + "층 " + currentRoom + "번 방");
     }
 
-    // done: 다음 층으로 이동하는 메서드를 구현하세요
+    // 다음 층으로 이동하는 메서드
     // 1. 현재 층 번호를 1 증가시킵니다
     // 2. 현재 방 번호를 1로 설정합니다
     // 3. 플레이어의 체력을 완전히 회복시킵니다
@@ -50,29 +50,28 @@ public class Dungeon {
         if (!isDungeonCleared()) System.out.println("다음 층으로 이동합니다. 현재 위치: " + currentFloor + "층 " + currentRoom + "번 방" );
     }
 
-    // 코드가 완성이 되어 있는데?
-    // done? FIXME: 던전 클리어 여부를 확인하는 메서드를 구현하세요
+    // 던전 클리어 여부를 확인하는 메서드
     // 현재 층이 MAX_FLOOR보다 크면 true, 아니면 false를 반환합니다
     public boolean isDungeonCleared() {
         if (currentFloor > MAX_FLOOR) return true;
         else return false;
     }
 
-    // done: 현재 층이 보스 층인지 확인하는 메서드를 구현하세요
+    // 현재 층이 보스 층인지 확인하는 메서드
     // 현재 층이 BOSS_FLOOR_INTERVAL의 배수이면 true, 아니면 false를 반환합니다
     public boolean isBossFloor() {
         if (currentFloor % BOSS_FLOOR_INTERVAL == 0) return true;
         else return false;
     }
 
-    // done: 현재 방이 보스 방인지 확인하는 메서드를 구현하세요
+    // 현재 방이 보스 방인지 확인하는 메서드
     // 현재 층이 보스 층이고 현재 방이 ROOMS_PER_FLOOR와 같으면 true, 아니면 false를 반환합니다
     public boolean isBossRoom() {
         if (isBossFloor() && currentRoom == ROOMS_PER_FLOOR) return true;
         else return false;
     }
 
-    // done: 현재 위치를 문자열로 반환하는 메서드를 구현하세요
+    // 현재 위치를 문자열로 반환하는 메서드
     // "X층 Y번 방" 형식으로 반환합니다(X: 현재 층, Y: 현재 방)
     public String getCurrentLocation() {
         return currentFloor + "층 " + currentRoom + "번 방";

@@ -19,7 +19,7 @@ public abstract class Monster extends Entity implements Fight {
         this.attackPower = attackPower;
     }
 
-    // TODO: 몬스터의 공격 메서드를 구현하세요
+    // 몬스터의 공격 메서드
     // 1. calculateDamage 메서드를 호출하여 데미지를 계산합니다
     // 2. RandomManager.isCritical()을 사용하여 치명타 여부를 확인합니다
     // 3. 치명타인 경우 데미지를 1.5배로 증가시키고 "몬스터의 치명타!" 메시지를 출력합니다
@@ -30,7 +30,7 @@ public abstract class Monster extends Entity implements Fight {
     public int attack(Entity target) {
         int damage = calculateDamage(target);       // 1
         if (RandomManager.isCritical()) {
-            damage *= 1.5;
+            damage = (int) (damage * 1.5);
             System.out.println("몬스터의 치명타!");
         }   // 2, 3
 
@@ -41,7 +41,7 @@ public abstract class Monster extends Entity implements Fight {
         return damage; // 6
     }
 
-    // FIXME: 몬스터의 데미지 계산 메서드를 구현하세요
+
     // 1. getBaseDamage 메서드를 호출하여 기본 데미지를 가져옵니다
     // 2. 레벨 차이에 따른 데미지 배율을 계산합니다 (레벨 차이 * 0.1 + 1.0)
     // 3. 배율은 최소 0.1 이상이 되어야 합니다 (Math.max 활용)
@@ -49,13 +49,13 @@ public abstract class Monster extends Entity implements Fight {
     @Override
     public int calculateDamage(Entity target) {
         int baseDamage = getBaseDamage();   // 1
-        int levelGap = Math.abs(target.getLevel() - getLevel());  // 레벨차이, FIXME: 질문 답변 본 후 다시 작성
-        double damageMag = Math.max(levelGap * 0.1, 0.1) + 1.0;     //2, 3
+        double damageMag = (this.getLevel() - target.getLevel()) * 0.1 + 1.0;     //2
+        damageMag = Math.max(damageMag, 0.1);   // 3
 
         return (int) (baseDamage * damageMag);      // 4
     }
 
-    // DONE: 몬스터 정보를 문자열로 반환하는 메서드를 구현하세요
+    // 몬스터 정보를 문자열로 반환하는 메서드
     // "S (레벨 X) - HP: Y/Z" 형식으로 반환합니다(S: 몬스터 이름, X: 몬스터 레벨, Y: 현재 체력, Z: 전체 체력)
     public String getInfo() {
         return getName() + " (레벨 " + getLevel() + ") - HP: " + getHealthPoints() + "/" + getMaxHealthPoints();

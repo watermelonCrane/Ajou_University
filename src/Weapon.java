@@ -14,7 +14,7 @@ public class Weapon extends Item {
         this.damage = damage;
     }
 
-    // Done: 무기 설명을 반환하는 메서드를 구현하세요
+    // 무기 설명을 반환하는 메서드
     // "S (공격력: X, Y층)" 형식으로 반환합니다 (S: 장비이름, X: 공격력 수치, Y: 획득한 층)
     @Override
     public String getDescription() {

@@ -11,7 +11,7 @@ public abstract class Entity {
         this.healthPoints = maxHealthPoints;
     }
 
-    // DONE: 데미지를 받는 메서드를 구현하세요
+    // 데미지를 받는 메서드
     // 매개변수로 받은 damage만큼 healthPoints를 감소시킵니다
     // 단, healthPoints는 0보다 작아질 수 없습니다 (Math.max 활용)
     // 데미지를 받은 후 남은 체력을 "S가 X의 데미지를 받았습니다. 남은 체력: Y"를 출력합니다(S: 이름, X: 데미지, Y: HP)

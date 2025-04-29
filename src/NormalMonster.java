@@ -7,7 +7,7 @@ public class NormalMonster extends Monster {
                 calculateBaseExp(name, level));
     }
 
-    // Done: 층에 맞는 일반 몬스터를 무작위로 생성하는 정적 메서드를 구현하세요
+    // 층에 맞는 일반 몬스터를 무작위로 생성하는 정적 메서드
     // 1. 층 수에 따라 사용 가능한 몬스터 이름 배열을 설정합니다
     //    - 1~10층: "슬라임", "고블린"
     //    - 11~20층: "고블린", "오크"
@@ -36,7 +36,7 @@ public class NormalMonster extends Monster {
         return monster;
     }
 
-    // Done: 몬스터 이름과 레벨에 따른 기본 체력을 계산하는 정적 메서드를 구현하세요
+    // 몬스터 이름과 레벨에 따른 기본 체력을 계산하는 정적 메서드
     // 1. 몬스터 이름에 따라 기본 체력을 설정합니다:
     //    - "슬라임": 20
     //    - "고블린": 35
@@ -60,7 +60,7 @@ public class NormalMonster extends Monster {
         return basicHP + (level - 1) * 5;
     }
 
-    // Done: 몬스터 이름과 레벨에 따른 기본 공격력을 계산하는 정적 메서드를 구현하세요
+    // 몬스터 이름과 레벨에 따른 기본 공격력을 계산하는 정적 메서드
     // 1. 몬스터 이름에 따라 기본 공격력을 설정합니다:
     //    - "슬라임": 3
     //    - "고블린": 5
@@ -84,7 +84,7 @@ public class NormalMonster extends Monster {
         return basicAttack + (level - 1) * 2;
     }
 
-    // Done: 몬스터 이름과 레벨에 따른 기본 경험치를 계산하는 정적 메서드를 구현하세요
+    // 몬스터 이름과 레벨에 따른 기본 경험치를 계산하는 정적 메서드
     // 1. 몬스터 이름에 따라 기본 경험치를 설정합니다:
     //    - "슬라임": 10
     //    - "고블린": 15
