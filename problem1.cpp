@@ -19,7 +19,12 @@ int pinging(string target, int count);
 
 int main() {
 
-    pinging("8.8.8.8", 100);
+
+    int run = pinging("8.8.8.8", 100);
+    if (run) {
+        cout << "error: run" << endl; 
+    }
+    
 
     return 0;
 }
@@ -34,20 +39,19 @@ int pinging(string target, int count) {
         return 1;
     }
 
-
     array<char, 128> buffer;
     string result;
 
-    FILE* file = fopen("result_1.txt", "w");
-    if (file == nullptr) {
+    FILE* file = fopen("result_1.txt", "w");    //결과를 저장할 파일 생성. 생성된 파일 인코딩 이슈 있음. utf-8또는 euc-kr로 열 것.
+    if (file == nullptr) {  // 파일 오픈 실패시 2 리턴
         cerr << "file fail" << endl;
         return 2;
     }
 
     // pipe의 데이터를 result로 복사
     while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
-        result += buffer.data();
-        fputs(buffer.data(), file);
+        result += buffer.data();    // result string에 결과 appand
+        fputs(buffer.data(), file); // file에 결과 appand
     }
 
     fclose(file);       // file close
@@ -55,6 +59,5 @@ int pinging(string target, int count) {
     //결과 출력
     cout << "Ping result:\n" << result << endl;
 
-
-    return 0;
+    return 0;   // 정상 출력시 0 리턴
 }
