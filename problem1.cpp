@@ -15,12 +15,12 @@
 
 using namespace std;
 
-int pinging(string target, int count);
+int pinging(string target);
 
 int main() {
 
 
-    int run = pinging("8.8.8.8", 100);
+    int run = pinging("8.8.8.8");
     if (run) {
         cout << "error: run" << endl; 
     }
@@ -30,8 +30,8 @@ int main() {
 }
 
 
-int pinging(string target, int count) {
-    string command = "ping -n " + to_string(count) + " " + target;  // 명령어 생성. target: ping을 보낼 주소, count: 몇 번 보낼까요?
+int pinging(string target) {
+    string command = "ping -n 1 " + target;  // 명령어 생성. target: ping을 보낼 주소
 
     unique_ptr<FILE, decltype(&_pclose)> pipe(_popen(command.c_str(), "r"), _pclose);
     if (!pipe) {    // 포인팅 실패시 에러 출력 후, return 1
