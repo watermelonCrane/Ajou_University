@@ -36,7 +36,6 @@ int main() {
     double ERTT = 0;
     double DRTT = 0;
 
-
     // 100회 반복해여 totalData에 데이터 입력력
     for (int i = 0; i < 100; i++) {
         int RTT = ping("fmkorea.com");
