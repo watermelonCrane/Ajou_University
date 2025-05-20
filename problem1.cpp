@@ -20,7 +20,7 @@ int pinging(string target, int count);
 int main() {
 
 
-    int run = pinging("8.8.8.8", 100);
+    int run = pinging("8.8.8.8", 10);
     if (run) {
         cout << "error: run" << endl; 
     }
