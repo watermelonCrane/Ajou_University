@@ -33,12 +33,6 @@ int main() {
 
     vector<vector<double>> totalData;   // RTT, E_RTT, D_RTT, Timeout
 
-<<<<<<< HEAD
-    int run = pinging("8.8.8.8", 10);
-    if (run) {
-        cout << "error: run" << endl; 
-    }
-=======
     double ERTT = 0;
     double DRTT = 0;
 
@@ -46,8 +40,7 @@ int main() {
     // 100회 반복해여 totalData에 데이터 입력력
     for (int i = 0; i < 100; i++) {
         int RTT = ping("fmkorea.com");
->>>>>>> dev
-    
+
         if (i != 0) {
             ERTT = (1 - 0.125) * ERTT + 0.125 * RTT;
             DRTT = (1 - 0.25) * DRTT + 0.25 * abs(RTT - ERTT);
