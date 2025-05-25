@@ -1,9 +1,9 @@
 /** 
  * 
  * 실행환경
- * OS: windows11
- * shell: cmd
- * 인코딩 EUC-KR or UTF-8
+ * windows11 / cmd
+ * g++ (MinGW-W64 x86_64-ucrt-posix-seh) 14.2.0
+ * UTF-8
  * 
  * 두 가지 과제에 대한 코드는 주석으로 구분되어있음
  * 각 과제에 대한 결과를 생성하여 csv 파일로 출력한다
