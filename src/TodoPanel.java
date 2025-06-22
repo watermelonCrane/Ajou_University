@@ -11,6 +11,7 @@
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TodoPanel extends JPanel {
@@ -35,7 +36,6 @@ public class TodoPanel extends JPanel {
         scrollPane = new JScrollPane(listPanel);
         add(listPanel);
         add(scrollPane);
-
 
 
         String[] statuses = {"None", "Done", "Not Done"};
@@ -69,6 +69,14 @@ public class TodoPanel extends JPanel {
     private void refreshList() {
         String statusLabelText = "            Total: " + controller.getTotalCount() + " / " + "Done: " + controller.getDoneCount() + " / " + "Not Done: " + (controller.getTotalCount() - controller.getDoneCount());
         statusLabel.setText(statusLabelText);
+
+        listPanel.removeAll();
+
+        List<Task> taskList = controller.getFilteredTasks(statusFilter.getSelectedItem().toString(), priorityFilter.getSelectedItem().toString());
+        for (var task : taskList) {
+            TaskItemView newTaskView = new TaskItemView(task, ()->{}, ()->{});
+            listPanel.add(newTaskView.getPanel());
+        }
 
     }
 
