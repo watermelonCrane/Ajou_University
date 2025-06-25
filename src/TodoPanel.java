@@ -1,16 +1,6 @@
-/*
-* TODO:
-*  현재까지 완료된 부분: Task.java 완료.
-*  refresh list 만드는 중. 여기서 Task들을 TaskItemView들로 감쌀것임.
-*  근데 Runable들은 도대체 뭘 넣어야 하냐...
-*
-*
-* */
-
-
-
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,9 +22,10 @@ public class TodoPanel extends JPanel {
         add(addButton);
 
         listPanel = new JPanel();
-        listPanel.setPreferredSize(new Dimension(600, 280));
+        listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
+        listPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         scrollPane = new JScrollPane(listPanel);
-        add(listPanel);
+        scrollPane.setPreferredSize(new Dimension(600, 280));
         add(scrollPane);
 
 
@@ -59,8 +50,28 @@ public class TodoPanel extends JPanel {
         refreshList();
 
 
-        addButton.addActionListener(e ->{
-            controller.addTask(inputField.getText());
+        // Action Listnerssss
+        ActionListener addAction = (e) -> {
+            String text = inputField.getText();
+            if (text.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "textfield is empty!");
+            } else {
+                if (!controller.addTask(inputField.getText())) JOptionPane.showMessageDialog(null, "Task already exists.");;
+                refreshList();
+
+                inputField.setText("");
+            }
+        };
+
+        addButton.addActionListener(addAction);
+        inputField.addActionListener(addAction);
+
+        statusFilter.addActionListener(e -> {
+            //System.out.println(statusFilter.getSelectedItem());
+            refreshList();
+        });
+
+        priorityFilter.addActionListener(e->{
             refreshList();
         });
 
@@ -71,10 +82,17 @@ public class TodoPanel extends JPanel {
         statusLabel.setText(statusLabelText);
 
         listPanel.removeAll();
+        listPanel.revalidate();
+        listPanel.repaint();
 
         List<Task> taskList = controller.getFilteredTasks(statusFilter.getSelectedItem().toString(), priorityFilter.getSelectedItem().toString());
         for (var task : taskList) {
-            TaskItemView newTaskView = new TaskItemView(task, ()->{}, ()->{});
+            TaskItemView newTaskView = new TaskItemView(task, ()->{
+                refreshList();
+            }, ()->{
+                controller.removeTask(task);
+                refreshList();
+            });
             listPanel.add(newTaskView.getPanel());
         }
 
@@ -86,6 +104,7 @@ public class TodoPanel extends JPanel {
             JFrame frame = new JFrame("To-Do List");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setSize(600, 400);
+            frame.setLocationRelativeTo(null);
             frame.add(new TodoPanel());
             frame.setVisible(true);
         });
