@@ -1,0 +1,36 @@
+# personal setting
+document/
+skeleton_code/
+
+# ========== IntelliJ IDEA ==========
+.idea/
+*.iml
+*.iws
+out/
+
+# ========== Java Build Files ==========
+*.class
+*.jar
+*.war
+*.ear
+
+# ========== Logs & Temp ==========
+*.log
+*.tmp
+*.swp
+*.bak
+
+# ========== Optional: Eclipse/VSCode ==========
+.vscode/
+.classpath
+.project
+.settings/
+bin/
+
+# ========== OS-Specific ==========
+# macOS
+.DS_Store
+# Windows
+Thumbs.db
+desktop.ini
+
