@@ -21,5 +21,5 @@ Blocks such as Extender were added to the provided circuit configuration as show
 </p>
 
 ### Caution: 
-The implementation is not perfect. Modifications are needed for Byte Unit operations in memory blocks See ```report.pdf -> problem5``` for more information.
+The implementation is not perfect. Modifications are needed for Byte Unit operations in memory blocks See ```report -> problem5``` for more information.
 
