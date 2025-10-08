@@ -84,10 +84,10 @@ app.route('/api/reservations')
 
 
         try {
-            if (name.length < 2) throw { status: 400, message: "400 Bad Request, 이름" };    //길이 체크
-            if (!seatPatternOK(seat)) throw { status: 400, message: "400 Bad Request, 패턴문제" };  //좌석 형식 체크
-            if (!seatRangeOK(seat)) throw { status: 400, message: "400 Bad Request, 범위 문제" }; // 좌석 범위 체크
-            if (!seatReservOK(seat)) throw { status: 409, message: "409 Conflict, 중복" };    // 빈좌석 체크
+            if (name.length < 2) throw { status: 400, message: "400 Bad Request, 이름을 더 길게 해주세요." };    //길이 체크
+            if (!seatPatternOK(seat)) throw { status: 400, message: "400 Bad Request, 좌석 형식을 확인해주세요." };  //좌석 형식 체크
+            if (!seatRangeOK(seat)) throw { status: 400, message: "400 Bad Request, 가능한 좌석 범위를 초과했습니다." }; // 좌석 범위 체크
+            if (!seatReservOK(seat)) throw { status: 409, message: "409 Conflict, 이미 예약된 좌석입니다." };    // 빈좌석 체크
         } catch (err) {
             return next(err);
         }
@@ -105,7 +105,7 @@ app.route('/api/reservations')
 app.use((err, req, res, next) => {
     //console.dir(err);
 
-    res.status(err.status).send(err.message);
+    res.status(err.status).send(`<h1>${err.message}</h1>`);
 
 })
 
