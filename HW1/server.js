@@ -4,7 +4,7 @@ const path = require('path');
 
 const PORT = process.env.PORT || 3000;
 
-// app.use(express.json());
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname)));
 
@@ -79,10 +79,10 @@ app.route('/api/reservations')
         
         // 좌석 형식에 맞게 다시 작성 ex) 01A -> 1A
         const seatRow = String(parseInt(seat.slice(0, -1), 10));
-        const seatCol = seat.slice(-1);
+        const seatCol = seat.slice(-1).toUpperCase();
         seat = seatRow + seatCol;
 
-
+        // 예외 처리
         try {
             if (name.length < 2) throw { status: 400, message: "400 Bad Request, 이름을 더 길게 해주세요." };    //길이 체크
             if (!seatPatternOK(seat)) throw { status: 400, message: "400 Bad Request, 좌석 형식을 확인해주세요." };  //좌석 형식 체크
@@ -92,10 +92,10 @@ app.route('/api/reservations')
             return next(err);
         }
 
-        reservations.push({ id: reservations.length + 1, name: name, seat: seat, ts: new Date().toISOString() })
+        reservations.push({ id: reservations.length + 1, name: name, seat: seat, ts: new Date().toISOString() })    //예약
 
 
-        res.status(201).json(reservations.at(reservations.length - 1));
+        res.status(201).json(reservations.at(reservations.length - 1));     //예약한 좌석 정보 반환
 
 
     });
