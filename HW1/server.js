@@ -73,19 +73,20 @@ app.route('/api/reservations')
     })
     .post((req, res, next) => {
 
-        let {name, seat} = req.body;
+        let { name, seat } = req.body;
 
         name = name.trim(); //앞뒤 공백제거
-        
-        // 좌석 형식에 맞게 다시 작성 ex) 01A -> 1A
-        const seatRow = String(parseInt(seat.slice(0, -1), 10));
-        const seatCol = seat.slice(-1).toUpperCase();
-        seat = seatRow + seatCol;
 
         // 예외 처리
         try {
             if (name.length < 2) throw { status: 400, message: "400 Bad Request, 이름을 더 길게 해주세요." };    //길이 체크
             if (!seatPatternOK(seat)) throw { status: 400, message: "400 Bad Request, 좌석 형식을 확인해주세요." };  //좌석 형식 체크
+            
+            // 좌석 형식에 맞게 다시 작성 ex) 01A -> 1A
+            const seatRow = String(parseInt(seat.slice(0, -1), 10));
+            const seatCol = seat.slice(-1).toUpperCase();
+            seat = seatRow + seatCol;
+            
             if (!seatRangeOK(seat)) throw { status: 400, message: "400 Bad Request, 가능한 좌석 범위를 초과했습니다." }; // 좌석 범위 체크
             if (!seatReservOK(seat)) throw { status: 409, message: "409 Conflict, 이미 예약된 좌석입니다." };    // 빈좌석 체크
         } catch (err) {
