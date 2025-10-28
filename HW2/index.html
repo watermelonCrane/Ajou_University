@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>비행기 좌석예약</title>
+</head>
+
+<body>
+
+    <header>
+        <hr>
+        <h1>비행기 좌석 예약</h1>
+        <p>폼을 제출하면 브라우저가 JSON 응답 화면으로 이동합니다.</p>
+    </header>
+
+    <article class="contents">
+        <div class="menu">
+            <section class="form-outer">
+                <h2>좌석 예약 생성</h2>
+                <div class="form-inner">
+                    <form action="/api/reservations" method="post">
+                        <label for="name">탑승객 이름</label>
+                        <input type="text" name="name" id="name" placeholder="홍길동" required>
+                        <p class="lines">2 글자 이상 입력하세요.</p>
+                        <label for="seat">좌석</label>
+                        <input type="text" name="seat" id="seat" placeholder="예: 3C" required>
+                        <p class="lines">형식: 행번호 + 열(A~F). Ex. 7B</p>
+                        <button>예약 생성</button>
+                    </form>
+                </div>
+            </section>
+
+            <section class="form-outer">
+                <h2>편성/좌석 범위 조회</h2>
+                <div class="form-inner">
+                    <form action="/api/flight" method="get">
+                        <p class="lines">현재 설정된 항공편 코드, 일정, 좌석 행/열 범위를 조회합니다.</p>
+                        <button>조회</button>
+                    </form>
+                </div>
+                <h2>예약 목록 조회</h2>
+                <div class="form-inner">
+                    <form action="/api/reservations" method="get">
+                        <p class="lines">현재까지 생성된 예약 목록을 조회합니다.</p>
+                        <button>조회</button>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </article>
+
+
+</body>
+
+</html>
