@@ -140,7 +140,8 @@
             id.innerText = reserv.id;
             name.innerText = reserv.name;
             seat.innerText = reserv.seat;
-            time.innerText = reserv.ts;
+            const date = new Date(reserv.ts);
+            time.innerText = date.toLocaleString();
             button.innerText = '삭제';
             work.appendChild(button);
 
