@@ -2,14 +2,19 @@ body {
     margin: 0 auto;
 }
 
+#flightInfo {
+    width: 100%;
+}
+
 .contents {
     width: 100%;
 }
 
 .menu {
-    width: 1000px;
+    width: 1200px;
     margin: 0 auto;
     display: flex;
+    flex-wrap: wrap;
     padding: 20px;
     border: 1px solid #b1b1b1;
     border-radius: 8px;
@@ -27,13 +32,59 @@ body {
     border-radius: 8px;
 }
 
+/* .left-border {
+    border-left: 1px #888;
+} */
+
 .lines {
-    margin-top: 0;
+   /*  margin-top: 0; */
     margin-left: 3px;
+    color: slategrey;
+}
+
+.alert {
+    background-color: #f8d7da;
+    border: 1px solid #f1aeb5;
+    color: #96222e;
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 16px;
+    margin-bottom: 16px;
+
+}
+
+.success {
+    background-color: #d1e7dd;
+    border: 1px solid #a3cfbb;
+    color: #0a3622;
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 16px;
+    margin-bottom: 16px;
+
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    text-align: center;
+}
+
+th {
+    background-color: #ebf2f5;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgb(213, 229, 231);
+}
+
+td {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgb(213, 229, 231);
 }
 
 header {
-    width: 1000px;
+    width: 1200px;
     margin: 40px auto;
 }
 hr {
