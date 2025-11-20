@@ -4,11 +4,17 @@
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include "shader.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
+//#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/transform.hpp>
+
+#include "shader.h"
+#include "j3a.hpp"
 
 #include <vector>
+
+
 
 using namespace std;
 using namespace glm;
@@ -47,9 +53,7 @@ int main(void) {
 
 void render(GLFWwindow* window) {
     theta += 0.02;
-    mat3 rotation = mat3(cos(theta), sin(theta), 0, -sin(theta), cos(theta), 0, 0, 0, 1);
-    mat3 scaling = mat3(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5);
-    mat3 transform = scaling * rotation;
+    mat4 transform = rotate(theta, vec3(0, 1, 0));
 
     int width, height;
     glfwGetFramebufferSize(window, &width, &height);
@@ -59,12 +63,12 @@ void render(GLFWwindow* window) {
 
     glUseProgram(program);
 
-    GLuint loc = glGetUniformLocation(program, "transform");
-    glUniformMatrix3fv(loc, 1, false, value_ptr(transform));
+    GLint loc = glGetUniformLocation(program, "transform");
+    glUniformMatrix4fv(loc, 1, false, value_ptr(transform));
 
     glBindVertexArray(vertexArray);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indicies);
-    glDrawElements(GL_TRIANGLES, 3 * (n - 2), GL_UNSIGNED_INT, 0);    // 0으로 두면 바인드 된 것 쓰라는거임
+    glDrawElements(GL_TRIANGLES, nTriangles[0] * 3, GL_UNSIGNED_INT, 0);
 
     glfwSwapBuffers(window);
 }
@@ -72,28 +76,17 @@ void render(GLFWwindow* window) {
 void init() {
     program = loadShaders("shader.vs", "shader.fs");                    //vertex shadr, framebuffer shader 불러오기
 
-    // vertex data 생성
-    vector<vec3> points;
-    for (int i = 0; i < n; i++) {
-        double theta = i * 3.14155926 * 2 / n;
-        points.push_back(vec3(cos(theta), sin(theta), 0));
-    }
-
-    // 인덱스 생성
-    vector<uvec3> triangles;
-    for (int i = 0; i < n - 2; i++) {
-        triangles.push_back(u16vec3(0, i + 1, i + 2));
-    }
+    loadJ3A("bunny.j3a");
 
     // vertexbuffer 생성, 바인드, 데이터 전달 
     glGenBuffers(1, &vertexBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, points.size() * sizeof(vec3), points.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, nVertices[0] * sizeof(glm::vec3), vertices[0], GL_STATIC_DRAW);
 
     // index버퍼 생성, 바인드, 데이터 전달
     glGenBuffers(1, &indicies);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indicies);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uvec3) * triangles.size(), triangles.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, nTriangles[0] * sizeof(glm::u32vec3), triangles[0], GL_STATIC_DRAW);
 
     // vertex Array 생성, 바인드, 바인드된 vertex버퍼와 연결, 셰이더 설정
     glGenVertexArrays(1, &vertexArray);
