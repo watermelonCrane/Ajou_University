@@ -22,8 +22,8 @@ $(KERNEL_MODULE): $(KERNEL_SRC_DIR)/hello_kernel.c $(KERNEL_SRC_DIR)/Makefile | 
 	$(MAKE) -C $(KDIR) M=$(PWD)/$(KERNEL_SRC_DIR) modules
 	cp $(KERNEL_SRC_DIR)/hello_kernel.ko $@
 
-$(USER_BIN): $(USER_SRC_DIR)/main.c $(INCLUDE_DIR)/abi.h | $(BUILD_DIR)
-	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -o $@ $(USER_SRC_DIR)/main.c
+$(USER_BIN): $(USER_SRC_DIR)/hello_user.c $(INCLUDE_DIR)/abi.h | $(BUILD_DIR)
+	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -o $@ $(USER_SRC_DIR)/hello_user.c
 
 kernel: $(KERNEL_MODULE)
 user:   $(USER_BIN)
