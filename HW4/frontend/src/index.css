@@ -1,0 +1,148 @@
+body {
+    margin: 0 auto;
+}
+
+#flightInfo {
+    width: 100%;
+}
+
+.contents {
+    width: 100%;
+}
+
+.menu {
+    width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+    border: 1px solid #b1b1b1;
+    border-radius: 8px;
+}
+
+.form-outer {
+    width: 48%;
+    margin: 0 auto;
+
+}
+
+.form-inner {
+    padding: 5px;
+    border: 1px dashed #888;
+    border-radius: 8px;
+}
+
+/* .left-border {
+    border-left: 1px #888;
+} */
+
+.lines {
+   /*  margin-top: 0; */
+    margin-left: 3px;
+    color: slategrey;
+}
+
+.alert {
+    background-color: #f8d7da;
+    border: 1px solid #f1aeb5;
+    color: #96222e;
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 16px;
+    margin-bottom: 16px;
+
+}
+
+.success {
+    background-color: #d1e7dd;
+    border: 1px solid #a3cfbb;
+    color: #0a3622;
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 16px;
+    margin-bottom: 16px;
+
+}
+.info {
+    background-color: rgb(236 239 254);
+    border: 1px solid #a3cfbb;
+    color: #0a3622;
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 16px;
+    margin-bottom: 16px;
+
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    text-align: center;
+}
+
+th {
+    background-color: #ebf2f5;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgb(213, 229, 231);
+}
+
+td {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgb(213, 229, 231);
+}
+
+header {
+    width: 1200px;
+    margin: 40px auto;
+}
+hr {
+    border-style: solid;
+    border-color: #b1b1b1;
+}
+
+label {
+    display: block;
+    font-size: 1.17em;
+    font-weight: bold;
+    padding: 5px;
+
+}
+
+input {
+    height: 35px;
+    /* width: 50%; */
+    border: 1px solid #888;
+    border-radius: 8px;
+    padding-left: 10px;
+    margin-top: 5px;
+    margin-bottom: 3px;
+}
+
+form {
+    padding: 10px;
+}
+
+button {
+    font-size: 1.17em;
+    font-weight: bold;
+    color: rgb(252, 252, 252);
+    background-color: rgb(56, 56, 56);
+    transition: all 0.2s ease;
+    transform-origin: center center;
+    cursor: pointer;
+    
+    border-radius: 12px;
+    border: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+button:hover {
+    background-color: black;
+    transform: scale(1.05);
+    
+}
