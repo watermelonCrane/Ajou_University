@@ -22,6 +22,7 @@ using namespace glm;
 const float PI = 3.14159265358979;
 
 GLuint vertexBuffer = 0;
+GLuint normalBuffer = 0;
 GLuint vertexArray = 0;
 GLuint program = 0;
 GLuint indicies = 0;
@@ -33,6 +34,8 @@ float fovy = 1.047f;
 void render(GLFWwindow* window);
 void init();
 double lastX, lastY;
+vec3 lightPos(10, 20, 10);
+vec3 lightColor(1);
 
 void cursorPosCB(GLFWwindow* window, double xpos, double ypos) {
     if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS) {
@@ -59,6 +62,7 @@ void scrollCB(GLFWwindow* window, double xoffset, double yoffset) {
 int main(void) {
 
     if (!glfwInit())        return -1;
+    glfwWindowHint(GLFW_SAMPLES, 8);
     GLFWwindow* window = glfwCreateWindow(640, 640, "Jaehak Kim 202220757", NULL, NULL); // title bar 내용 을 Jaehak Kim 202220757로 변경
     glfwMakeContextCurrent(window);
     glewInit();
@@ -67,6 +71,7 @@ int main(void) {
     glfwSetScrollCallback(window, scrollCB);
 
     glfwSwapInterval(1);
+    glEnable(GL_DEPTH_TEST);
     init();
 
     while (!glfwWindowShouldClose(window)) {
@@ -90,7 +95,7 @@ void render(GLFWwindow* window) {
 
     glViewport(0, 0, width, height);
     glClearColor(0.22, 0.07, 0.57, 0);  //clear color 변경
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glUseProgram(program);
 
@@ -101,6 +106,18 @@ void render(GLFWwindow* window) {
     glUniformMatrix4fv(modelMatLoc, 1, false, value_ptr(modelMat));
     glUniformMatrix4fv(viewMatLoc, 1, false, value_ptr(viewMat));
     glUniformMatrix4fv(projMatLoc, 1, false, value_ptr(projMat));
+
+    GLuint lightColorLoc = glGetUniformLocation(program, "lightColor");
+    GLuint lightPosLoc= glGetUniformLocation(program, "lightPos");
+    GLuint cameraPosLoc = glGetUniformLocation(program, "cameraPos");
+    GLuint diffColorLoc = glGetUniformLocation(program, "diffColor");
+    GLuint shininessLoc = glGetUniformLocation(program, "shininess");
+
+    glUniform3fv(lightColorLoc, 1, value_ptr(lightColor));
+    glUniform3fv(lightPosLoc, 1, value_ptr(lightPos));
+    glUniform3fv(cameraPosLoc, 1, value_ptr(cameraPos));
+    glUniform3fv(diffColorLoc, 1, value_ptr(diffuseColor[0]));
+    glUniform1f(shininessLoc, shininess[0]);
 
     glBindVertexArray(vertexArray);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indicies);
@@ -119,16 +136,27 @@ void init() {
     glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
     glBufferData(GL_ARRAY_BUFFER, nVertices[0] * sizeof(glm::vec3), vertices[0], GL_STATIC_DRAW);
 
-    // index버퍼 생성, 바인드, 데이터 전달
-    glGenBuffers(1, &indicies);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indicies);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, nTriangles[0] * sizeof(glm::u32vec3), triangles[0], GL_STATIC_DRAW);
+    // normalbuffer 생성
+    glGenBuffers(1, &normalBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, normalBuffer);
+    glBufferData(GL_ARRAY_BUFFER, nVertices[0] * sizeof(glm::vec3), normals[0], GL_STATIC_DRAW);
 
-    // vertex Array 생성, 바인드, 바인드된 vertex버퍼와 연결, 셰이더 설정
+    // vertex Array 생성, 
     glGenVertexArrays(1, &vertexArray);
     glBindVertexArray(vertexArray);
+
+    // vertexBuffer 바인드, vertexArray와 연결, 셰이더 설정
     glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
+    // normalBuffer 바인드, vertexArray와 연결
+    glBindBuffer(GL_ARRAY_BUFFER, normalBuffer);
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+    // index버퍼 생성, 바인드, 데이터 전달
+    glGenBuffers(1, &indicies);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indicies);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, nTriangles[0] * sizeof(glm::u32vec3), triangles[0], GL_STATIC_DRAW);
 }
