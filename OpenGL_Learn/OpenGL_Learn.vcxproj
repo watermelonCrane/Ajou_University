@@ -131,12 +131,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="bunny.j3a" />
+    <None Include="dwarf.j3a" />
     <None Include="shader.fs" />
     <None Include="shader.vs" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j3a.hpp" />
     <ClInclude Include="shader.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="dwarfB.jpg" />
+    <Image Include="dwarfD.jpg" />
+    <Image Include="dwarfS.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

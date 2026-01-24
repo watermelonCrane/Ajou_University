@@ -1,18 +1,27 @@
 #version 410 core
 
 layout(location=0) in vec3 in_Position;
-layout(location=2) in vec3 in_Normal;	// normalVector Buffer ¿¸¥ﬁπﬁ±‚
+layout(location=2) in vec3 in_Normal;	// normalVector Buffer Ï†ÑÎã¨Î∞õÍ∏∞
+
+layout(location=1) in vec2 in_TexCoord;
+
 
 uniform mat4 modelMat = mat4(1);
 uniform mat4 viewMat = mat4(1);
 uniform mat4 projMat = mat4(1);
 
-out vec3 normal;	// fs∑Œ normalVector ¿¸¥ﬁ
+out vec3 normal;	// fsÎ°ú normalVector Ï†ÑÎã¨
 out vec3 worldPos;
+
+
+out vec2 texCoord;
 
 void main(void)
 {
-	normal = normalize(modelMat*vec4(in_Normal, 0)).xyz;	// world coordinate ªÛ¿« normalvector ∞ËªÍ, ¥‹¿ß∫§≈Õ∑Œ normalize
+	texCoord = in_TexCoord;
+
+
+	normal = normalize(modelMat*vec4(in_Normal, 0)).xyz;	// world coordinate ÏÉÅÏùò normalvector Í≥ÑÏÇ∞, Îã®ÏúÑÎ≤°ÌÑ∞Î°ú normalize
 	vec4 p = projMat*viewMat*modelMat*vec4(in_Position.xyz, 1.0);
 	worldPos = (modelMat*vec4(in_Position.xyz, 1.0)).xyz;
 	gl_Position= p;

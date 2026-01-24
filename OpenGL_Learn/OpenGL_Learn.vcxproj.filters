@@ -32,6 +32,9 @@
     <None Include="bunny.j3a">
       <Filter>Source Files</Filter>
     </None>
+    <None Include="dwarf.j3a">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="shader.h">
@@ -40,5 +43,16 @@
     <ClInclude Include="j3a.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="dwarfB.jpg">
+      <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="dwarfD.jpg">
+      <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="dwarfS.jpg">
+      <Filter>Source Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
