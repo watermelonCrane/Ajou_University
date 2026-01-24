@@ -8,8 +8,6 @@
 #include <glm/gtc/type_ptr.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/transform.hpp>
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
 
 #include "shader.h"
 #include "j3a.hpp"
@@ -25,8 +23,6 @@ const float PI = 3.14159265358979;
 
 GLuint vertexBuffer = 0;
 GLuint normalBuffer = 0;
-
-GLuint textureBuffer = 0;
 GLuint vertexArray = 0;
 GLuint program = 0;
 GLuint indicies = 0;
@@ -37,12 +33,9 @@ float fovy = 1.047f;
 
 void render(GLFWwindow* window);
 void init();
-GLuint loadTexture(string filename);
 double lastX, lastY;
 vec3 lightPos(10, 20, 10);
 vec3 lightColor(1);
-GLuint diffTex, bumpTex;
-
 
 void cursorPosCB(GLFWwindow* window, double xpos, double ypos) {
     if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS) {
@@ -70,11 +63,11 @@ int main(void) {
 
     if (!glfwInit())        return -1;
     glfwWindowHint(GLFW_SAMPLES, 8);
-    GLFWwindow* window = glfwCreateWindow(640, 640, "Jaehak Kim 202220757", NULL, NULL); // title bar ÎÇ¥Ïö© ÏùÑ Jaehak Kim 202220757Î°ú Î≥ÄÍ≤Ω
+    GLFWwindow* window = glfwCreateWindow(640, 640, "Jaehak Kim 202220757", NULL, NULL); // title bar ≥ªøÎ ¿ª Jaehak Kim 202220757∑Œ ∫Ø∞Ê
     glfwMakeContextCurrent(window);
     glewInit();
 
-    glfwSetCursorPosCallback(window, cursorPosCB);  //ÎßàÏö∞Ïä§ Í¥ÄÎ†® ÏΩúÎ∞±
+    glfwSetCursorPosCallback(window, cursorPosCB);  //∏∂øÏΩ∫ ∞¸∑√ ƒ›πÈ
     glfwSetScrollCallback(window, scrollCB);
 
     glfwSwapInterval(1);
@@ -89,27 +82,6 @@ int main(void) {
     glfwTerminate();
 }
 
-GLuint loadTexture(string filename) {
-    GLuint textureID = 0;
-    int w = 0, h = 0, n = 0;
-
-    stbi_set_flip_vertically_on_load(true);
-    void* buf = stbi_load(filename.c_str(), &w, &h, &n, 4);
-
-    glGenTextures(1, &textureID);
-    glBindTexture(GL_TEXTURE_2D, textureID);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB8_ALPHA8, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, buf);
-
-    stbi_image_free(buf);
-
-    return textureID;
-}
-
 void render(GLFWwindow* window) {
     int width, height;
     glfwGetFramebufferSize(window, &width, &height);
@@ -122,21 +94,10 @@ void render(GLFWwindow* window) {
     mat4 projMat = perspective(fovy, width / (float)height, 0.1f, 100.f);
 
     glViewport(0, 0, width, height);
-    glClearColor(0.22, 0.07, 0.57, 0);  //clear color Î≥ÄÍ≤Ω
+    glClearColor(0.22, 0.07, 0.57, 0);  //clear color ∫Ø∞Ê
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glUseProgram(program);
-
-    glActiveTexture(GL_TEXTURE0 + 0);
-    glBindTexture(GL_TEXTURE_2D, diffTex);
-    glActiveTexture(GL_TEXTURE0 + 1);
-    glBindTexture(GL_TEXTURE_2D, bumpTex);
-
-    GLint diffTexLoc = glGetUniformLocation(program, "diffTex");
-    GLint bumpTexLoc = glGetUniformLocation(program, "bumpTex");
-
-    glUniform1i(diffTexLoc, 0);
-    glUniform1i(bumpTexLoc, 1);
 
     GLint modelMatLoc = glGetUniformLocation(program, "modelMat");
     GLint viewMatLoc = glGetUniformLocation(program, "viewMat");
@@ -166,48 +127,35 @@ void render(GLFWwindow* window) {
 }
 
 void init() {
-    program = loadShaders("shader.vs", "shader.fs");                    //vertex shadr, framebuffer shader Î∂àÎü¨Ïò§Í∏∞
+    program = loadShaders("shader.vs", "shader.fs");                    //vertex shadr, framebuffer shader ∫“∑Øø¿±‚
 
-    loadJ3A("dwarf.j3a");
+    loadJ3A("bunny.j3a");
 
-    diffTex = loadTexture(diffuseMap[0]);
-    bumpTex = loadTexture(bumpMap[0]);
-
-    // vertexbuffer ÏÉùÏÑ±, Î∞îÏù∏Îìú, Îç∞Ïù¥ÌÑ∞ Ï†ÑÎã¨ 
+    // vertexbuffer ª˝º∫, πŸ¿ŒµÂ, µ•¿Ã≈Õ ¿¸¥ﬁ 
     glGenBuffers(1, &vertexBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
     glBufferData(GL_ARRAY_BUFFER, nVertices[0] * sizeof(glm::vec3), vertices[0], GL_STATIC_DRAW);
 
-    // normalbuffer ÏÉùÏÑ±
+    // normalbuffer ª˝º∫
     glGenBuffers(1, &normalBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, normalBuffer);
     glBufferData(GL_ARRAY_BUFFER, nVertices[0] * sizeof(glm::vec3), normals[0], GL_STATIC_DRAW);
-    // texturebuffer ÏÉùÏÑ±
-    glGenBuffers(1, &textureBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
-    glBufferData(GL_ARRAY_BUFFER, nVertices[0] * sizeof(glm::vec2), texCoords[0], GL_STATIC_DRAW);
 
-
-    // vertex Array ÏÉùÏÑ±, 
+    // vertex Array ª˝º∫, 
     glGenVertexArrays(1, &vertexArray);
     glBindVertexArray(vertexArray);
 
-    // vertexBuffer Î∞îÏù∏Îìú, vertexArrayÏôÄ Ïó∞Í≤∞, ÏÖ∞Ïù¥Îçî ÏÑ§Ï†ï
+    // vertexBuffer πŸ¿ŒµÂ, vertexArrayøÕ ø¨∞·, ºŒ¿Ã¥ı º≥¡§
     glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-    // normalBuffer Î∞îÏù∏Îìú, vertexArrayÏôÄ Ïó∞Í≤∞
+    // normalBuffer πŸ¿ŒµÂ, vertexArrayøÕ ø¨∞·
     glBindBuffer(GL_ARRAY_BUFFER, normalBuffer);
     glEnableVertexAttribArray(2);
     glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-    // texturebuffer Î∞îÏù∏Îìú, vertexArrayÏôÄ Ïó∞Í≤∞
-    glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
-
-    // indexÎ≤ÑÌçº ÏÉùÏÑ±, Î∞îÏù∏Îìú, Îç∞Ïù¥ÌÑ∞ Ï†ÑÎã¨
+    // indexπˆ∆€ ª˝º∫, πŸ¿ŒµÂ, µ•¿Ã≈Õ ¿¸¥ﬁ
     glGenBuffers(1, &indicies);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indicies);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, nTriangles[0] * sizeof(glm::u32vec3), triangles[0], GL_STATIC_DRAW);

@@ -11,6 +11,7 @@ uniform float shininess = 50;
 in vec3 normal;
 in vec3 worldPos;
 
+
 uniform sampler2D diffTex;
 uniform sampler2D bumpTex;
 
@@ -42,5 +43,6 @@ void main(void)
 	vec3 color = texture(diffTex, texCoord).rgb * lightColor * max(0, dot(N, L));
 	color += lightColor*pow(max(0, dot(R,V)), shininess);
 	
+
 	out_Color = vec4(pow(color, vec3(1/2.2)), 1.0);
 }
