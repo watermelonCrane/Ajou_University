@@ -1,5 +1,9 @@
-# 웹시설 과제들임
+# Web System Design Assignments
+In this lecture, we learned the basic Web System Design Concepts.
+This project contains the assignments.
 
-첫번째 과제는 거의 완성 후 커밋함.
+To check the assinment problem, go to `./docs/` directory.
 
-환경: nodejs, express
+## Development Environment
+- Node.js (Latest LTS)
+- MongoDB (Latest LTS)
