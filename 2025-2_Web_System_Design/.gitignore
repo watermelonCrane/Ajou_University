@@ -1,0 +1,5 @@
+# nodemodule 무시
+node_modules/
+
+# test 무시
+test.*

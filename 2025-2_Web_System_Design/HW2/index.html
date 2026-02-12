@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>비행기 좌석예약</title>
+</head>
+
+<body>
+
+    <header>
+        <h1>비행기 좌석 예약</h1>
+    </header>
+
+    <article class="contents">
+        <div class="menu">
+            <p id="flightInfo" class="lines">항공편 정보</p>
+            <section class="form-outer">
+                <h2>좌석 예약</h2>
+                <div class="form-inner">
+                    <form id="reservForm">
+                        <label for="name">탑승객 이름</label>
+                        <input type="text" name="name" id="name" placeholder="홍길동">
+                        <p class="lines">2글자 이상 입력하세요.</p>
+                        <label for="seat">좌석</label>
+                        <input type="text" name="seat" id="seat" placeholder="예: 3C">
+                        <p id="seatInfo" class="lines">예약할 좌석을 입력하세요. 형식: 행번호 + 열(예:7B)</p>
+                        <button>예약하기</button>
+                    </form>
+
+                </div>
+            </section>
+
+            <section class="form-outer">
+                <h2>예약 목록</h2>
+                <table id="reservList">
+                    <tr>
+                        <th>ID</th>
+                        <th>이름</th>
+                        <th>좌석</th>
+                        <th>시간</th>
+                        <th>작업</th>
+                    </tr>
+                </table>
+            </section>
+        </div>
+    </article>
+
+    <script>
+        // fetch 헬퍼
+        async function fetchAPI(url, { method = 'GET', body } = {}) {
+            const option = {
+                method,
+                headers: { ...(body && { 'Content-Type': 'application/json' }) },
+                body,
+            };
+
+            const data = await fetch(url, option);
+            if (!data.ok) throw { status: data.status, message: await data.text(), };
+
+            return await data.json();
+        }
+
+        // 항공기 정보 갱신
+        async function makeFlightInfo() {
+            const flightInfo = document.getElementById('flightInfo');
+            const seatInfo = document.getElementById('seatInfo');
+            let info, seat;
+            try {
+                const flight = await fetchAPI('/api/flight');
+                info = `${flight.code} | ${flight.from}→${flight.to} | ${flight.date} | ${flight.departureTime} → ${flight.arrivalTime}`
+                seat = `입력 가능 범위: 행 1-${flight.rows} / 열 ${flight.cols.join(", ")}`;
+            } catch (err) {
+                info = '항공편 정보를 불러오지 못하였습니다.';
+                seat = '좌석 정보를 불러오지 못하였습니다.';
+            }
+
+            flightInfo.textContent = info;
+            seatInfo.innerHTML = `${seatInfo.textContent}<br>${seat}`;
+        }
+
+
+        // === 예약하기 ===
+        const reservForm = document.getElementById('reservForm');
+
+        // 알림창 생성
+        function makeAlert(data, status) {
+            const old = document.querySelectorAll('.alert, .success');
+            console.log(old);
+            if (!old) return;
+            old.forEach(el => el.remove());
+
+            const div = document.createElement('div');
+            if (status === 201) {
+                div.classList.add('success');
+                div.textContent = `예약 완료: ${data.name} / ${data.seat}`;
+            } else {
+                div.classList.add('alert');
+                div.textContent = data;
+            }
+            reservForm.appendChild(div);
+        }
+
+        // 예약 POST
+        reservForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const data = Object.fromEntries(new FormData(reservForm).entries());
+
+            try {
+                const res = await fetchAPI('/api/reservations', { method: 'POST', body: JSON.stringify(data), });
+                makeAlert(res, 201);
+                reservForm.reset();
+            } catch (err) {
+                console.log(err);
+                makeAlert(err.message);
+            }
+            await makeReservTable();
+        })
+
+        // === 테이블 생성 ===
+
+        // 행 생성
+        function makeRow(reserv) {
+            console.log(reserv);
+            const tr = document.createElement('tr');
+            tr.classList.add('table-data');
+
+            const id = document.createElement('td');
+            const name = document.createElement('td');
+            const seat = document.createElement('td');
+            const time = document.createElement('td');
+            const work = document.createElement('td');
+            const button = document.createElement('button');
+
+            id.innerText = reserv.id;
+            name.innerText = reserv.name;
+            seat.innerText = reserv.seat;
+            const date = new Date(reserv.ts);
+            time.innerText = date.toLocaleString();
+            button.innerText = '삭제';
+            work.appendChild(button);
+
+            tr.appendChild(id);
+            tr.appendChild(name);
+            tr.appendChild(seat);
+            tr.appendChild(time);
+            tr.appendChild(work);
+
+            button.addEventListener('click', async () => {
+                if (confirm(`#${id.innerText} 예약을 삭제할까요?`)) {
+                    try {
+                        const res = await fetchAPI(`/api/reservations/${id.innerText}`, { method: 'DELETE' });
+                        makeReservTable();
+                    } catch (err) {
+                        console.log(err);
+                    }
+                }
+            });
+
+            return tr;
+        }
+
+        // 기존 테이블 제거
+        function removeRowAll() {
+
+            const trs = document.querySelectorAll('.table-data');
+            if (!trs) return;
+            console.log(trs);
+            trs.forEach(el => el.remove());
+        }
+
+        async function makeReservTable() {
+            removeRowAll();
+
+            let reservList;
+            try {
+                const reserv = await fetchAPI('/api/reservations');
+                reservList = reserv.slice(1);
+                console.log(reservList);
+            } catch (err) {
+                console.log(err);
+            }
+
+            const table = document.getElementById('reservList');
+            if (reservList.length === 0) {
+                const tr = document.createElement('tr');
+                tr.classList.add('table-data');
+                tr.textContent = '예약이 없습니다.';
+                table.appendChild(tr);
+            } else {
+                reservList.forEach((data) => {
+                    const newTr = makeRow(data);
+                    table.appendChild(newTr);
+                });
+            }
+
+
+
+        }
+
+        makeFlightInfo();
+        makeReservTable();
+
+
+    </script>
+
+</body>
+
+</html>
